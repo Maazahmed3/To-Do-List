@@ -1,65 +1,68 @@
-    const inputBox = document.getElementById("name");
-    const listContainer = document.getElementById("list-container");
+const inputBox = document.getElementById("name");
+const listContainer = document.getElementById("list-container");
 
-    let tasks = [];
+let tasks = [];
 
-    let isEdit = false;
-    let editId = 0;
+let isEdit = false;
+let editId = 0;
 
-    function renderTasks() {
-      listContainer.innerHTML = tasks.map(task => `
-        <li>
-          <label>
-            <span>${task.name}</span>
-          </label>
-          <span onclick="editRow(${task.id})" class="edit-btn">Edit</span>
-          <span onclick="deleteRow(${task.id})" class="delete-btn">Delete</span>
-        </li>
-      `).join('');
+function renderTasks() {
+  listContainer.innerHTML = tasks.map(task => `
+    <li>
+      <label>
+        <span>${task.name} - ${task.dateTime}</span>
+      </label>
+      <span onclick="editRow(${task.id})" class="edit-btn">Edit</span>
+      <span onclick="deleteRow(${task.id})" class="delete-btn">Delete</span>
+    </li>
+  `).join('');
+
+}
+
+function addTask() {
+  const name = inputBox.value.trim();
+  const dateTime = new Date().toLocaleString(); // Get the current date and time
+
+  if (!name) {
+    alert("Please write down a task");
+    return;
+  }
+
+  if (isEdit) {
+    const index = tasks.findIndex(task => task.id === editId);
+    if (index !== -1) { 
+      tasks[index].name = name;
+      tasks[index].dateTime = dateTime; // Update the date and time
     }
+    isEdit = false;
+    editId = 0;
+  } else {
+    const id = tasks.length ? tasks[tasks.length - 1].id + 1 : 1;
+    tasks.push({ id, name, dateTime });
+  }
 
-    function addTask() {
-      const name = inputBox.value.trim();
+  inputBox.value = "";
+  renderTasks();
+}
 
-      if (!name) {
-        alert("Please write down a task");
-        return;
-      }
+function editRow(id) {
+  const task = tasks.find(task => task.id === id);
+  if (task) {
+    inputBox.value = task.name;
+    editId = id;
+    isEdit = true;
+  }
+}
 
-      if (isEdit) {
-        const index = tasks.findIndex(task => task.id === editId);
-        if (index !== -1) {
-          tasks[index].name = name;
-        }
-        isEdit = false;
-        editId = 0;
-      } else {
-        const id = tasks.length ? tasks[tasks.length - 1].id + 1 : 1;
-        tasks.push({ id, name });
-      }
+function deleteRow(id) {
+  tasks = tasks.filter(task => task.id !== id);
+  renderTasks();
+}
 
-      inputBox.value = "";
-      renderTasks();
-    }
+inputBox.addEventListener("keyup", function(event) {
+  if (event.key === "Enter") {
+    addTask();
+  }
+});
 
-    function editRow(id) {
-      const task = tasks.find(task => task.id === id);
-      if (task) {
-        inputBox.value = task.name;
-        editId = id;
-        isEdit = true;
-      }
-    }
-
-    function deleteRow(id) {
-      tasks = tasks.filter(task => task.id !== id);
-      renderTasks();
-    }
-
-    inputBox.addEventListener("keyup", function(event) {
-      if (event.key === "Enter") {
-        addTask();
-      }
-    });
-
-    renderTasks();
+renderTasks();

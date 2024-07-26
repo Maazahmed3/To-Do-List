@@ -1,8 +1,8 @@
 body{ 
    background-color: rgb(151, 189, 176);
     font-family: Arial, sans-serif;
-    text-align: center;
     margin-top: 50px;
+    text-align: center;
   }
   
   .todo-container{
@@ -12,12 +12,13 @@ body{
     color: white;
     border-radius: 15px;
   }
+
+
   
   #name{
     width: 200px;
     padding: 8px;
     border-radius: 5px;
-    margin-right: 5px;
     font-size: 20px;
     border-color: black;
     border-style: solid;
@@ -27,11 +28,13 @@ body{
     font-size: 20px;
     cursor: pointer;
     transition: 0.4s;
-    padding: 10px;
+    padding: 7px 15px;
     border: none;
     color: white;
     border-radius: 5px;
     background-color: #000000;
+    text-align: none;
+    margin: 15px 0px 0px;
   }
   
   hr{
@@ -46,6 +49,7 @@ body{
   
   h1{
     margin-bottom: 20px; 
+    font-size: 60px;
   }
   
   #input-button:hover {

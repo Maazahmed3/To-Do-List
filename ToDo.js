@@ -1,9 +1,10 @@
 const inputBox = document.getElementById("name");
 const dateTimeBox = document.getElementById("datetime");
 const listContainer = document.getElementById("list-container");
-const inputButton = document.getElementById("input-button")
+const inputButton = document.getElementById("input-button");
 
-let tasks = [];
+let myArr = localStorage.getItem("tasks");
+let tasks = myArr ? JSON.parse (myArr): [];
 let isEdit = false;
 let editId = 0;
 
@@ -17,9 +18,9 @@ function formatDateTime(datetime) {
 }
 
 function renderTasks() {
-  listContainer.innerHTML = tasks
-    .map(
-      (task) => `
+  const myJson = JSON.stringify(tasks);
+  localStorage.setItem("tasks", myJson);
+  listContainer.innerHTML = tasks.map( (task) => `
     <li>
       <label>
         <span>${task.name}</span>
